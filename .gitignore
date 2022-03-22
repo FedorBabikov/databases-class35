@@ -4,3 +4,5 @@ node_modules/
 **/*-secret.json
 **/*.sh
 .idea
+package-lock.json
+.vscode/
