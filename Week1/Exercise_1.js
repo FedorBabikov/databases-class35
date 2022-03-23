@@ -3,15 +3,18 @@
 import util from "util";
 import mysql from "mysql";
 
+// configuration
 const connection = mysql.createConnection({
   host: "localhost",
   user: "hyfuser",
   password: "hyfpassword",
 });
 
+// function for making db requests (returns Promise)
 const execQuery = util.promisify(connection.query.bind(connection));
 
 async function seedDatabase() {
+  // composing initial queries and collecting them all in array
   const DROP_DATABASE = "DROP DATABASE IF EXISTS meetup";
   const CREATE_DATABASE = "CREATE DATABASE meetup";
   const USE_DATABASE = "USE meetup";
@@ -39,7 +42,8 @@ async function seedDatabase() {
     room_no INT
   );`;
 
-  const dbInit = [
+  // array containing initial queries
+  const dbInitQueries = [
     DROP_DATABASE,
     CREATE_DATABASE,
     USE_DATABASE,
@@ -48,6 +52,14 @@ async function seedDatabase() {
     CREATE_MEETINGS_TABLE,
   ];
 
+  // object containing insert queries for the three tables
+  const dbInsertQueries = {
+    invitees: `INSERT INTO Invitee (invitee_no, invitee_name, invited_by) VALUES ? ;`,
+    rooms: `INSERT INTO Room (room_no, room_name, floor_number) VALUES ? ;`,
+    meetings: `INSERT INTO Meeting (meeting_no, meeting_title, starting_time, ending_time, room_no) VALUES ? ;`,
+  };
+
+  // object containing data for the three tables
   const dbData = {
     invitees: [
       [1, "Person1", "Person5"],
@@ -72,17 +84,14 @@ async function seedDatabase() {
     ],
   };
 
-  const dbInsertQueries = {
-    invitees: `INSERT INTO Invitee (invitee_no, invitee_name, invited_by) VALUES ? ;`,
-    rooms: `INSERT INTO Room (room_no, room_name, floor_number) VALUES ? ;`,
-    meetings: `INSERT INTO Meeting (meeting_no, meeting_title, starting_time, ending_time, room_no) VALUES ? ;`,
-  };
-
+  // creating and populating db
   connection.connect();
 
   try {
-    await Promise.all(dbInit.map((queryString) => execQuery(queryString)));
+    // wait for all the initial queries to finish
+    await Promise.all(dbInitQueries.map((query) => execQuery(query)));
 
+    // wait for all the insert queries to finish
     for (const [key, value] of Object.entries(dbData)) {
       await execQuery(dbInsertQueries[key], [value]);
     }
