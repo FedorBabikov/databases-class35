@@ -17,7 +17,7 @@ const execQuery = util.promisify(connection.query.bind(connection));
 const queries = [
   {
     question: `What are the names of countries with population greater than 8 million?`,
-    query: `SELECT Name FROM country WHERE Population > 8000000;`,
+    query: `SELECT Name, Population FROM country WHERE Population > 8000000;`,
   },
   {
     question: `What are the names of countries that have 'land' in their names?`,
