@@ -57,6 +57,7 @@ const queries = [
   },
 ];
 
+// logs all the questions and db-answers nicely to console
 const outputDBData = (queries, responses) => {
   for (let i = 0; i < queries.length; i++) {
     console.log(`${queries[i].question}\n\n`);
@@ -78,10 +79,12 @@ const outputDBData = (queries, responses) => {
 connection.connect();
 
 try {
+  // make all the requests to db and collect the received data to array
   const responses = await Promise.all(
     queries.map((queryObj) => execQuery(queryObj.query))
   );
 
+  // output both the questions and the db-data
   outputDBData(queries, responses);
 } catch (err) {
   console.error(err.message);
