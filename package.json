@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "HYF: homework for DATABASES module",
   "main": "index.js",
+  "type": "module",
   "dependencies": {
     "bignumber.js": "^9.0.0",
     "core-util-is": "^1.0.3",
