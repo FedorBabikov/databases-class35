@@ -4,16 +4,9 @@ import util from "util";
 import mysql from "mysql";
 import { createData } from "./ex0-dbData.js";
 import {
-  DROP_DB,
-  CREATE_DB,
-  USE_DB,
-  CREATE_TBL_AUTHORS,
-  CREATE_TBL_RESEARCH_PAPERS,
-  CREATE_TBL_AUTHORS_PAPERS,
-  ADD_MENTOR,
-  INSERT_AUTHORS,
-  INSERT_RESEARCH_PAPERS,
-  INSERT_AUTHORS_PAPERS,
+  getInitQueries,
+  getInsertQueries,
+  getModificationQueries,
 } from "./ex0-dbQueries.js";
 
 // configuration
@@ -28,22 +21,13 @@ const connection = mysql.createConnection({
 const execQuery = util.promisify(connection.query.bind(connection));
 
 // array containing initial queries
-const initQueries = [
-  DROP_DB,
-  CREATE_DB,
-  USE_DB,
-  CREATE_TBL_AUTHORS,
-  CREATE_TBL_RESEARCH_PAPERS,
-  CREATE_TBL_AUTHORS_PAPERS,
-  ADD_MENTOR,
-];
+const initQueries = getInitQueries();
 
 // object containing insert queries
-const insertQueries = {
-  authors: INSERT_AUTHORS,
-  research_Papers: INSERT_RESEARCH_PAPERS,
-  authors_Papers: INSERT_AUTHORS_PAPERS,
-};
+const insertQueries = getInsertQueries();
+
+// array containing modification queries
+const modificationQueries = getModificationQueries();
 
 // object containing tables data
 const dbData = createData();
@@ -63,6 +47,9 @@ async function seedDatabase() {
     for (const [key, value] of Object.entries(dbData)) {
       await execQuery(insertQueries[key], [value]);
     }
+
+    // wait for all the modification queries to finish
+    await Promise.all(modificationQueries.map((query) => execQuery(query)));
   } catch (err) {
     console.error(err.message);
     connection.end();

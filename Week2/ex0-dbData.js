@@ -10,7 +10,7 @@ const universities = [
   "University of Amsterdam",
 ];
 
-// create two arrays of data-strings using `date-fns` package
+// create two arrays of date-strings using `date-fns` package
 const birthDates = eachWeekOfInterval({
   start: new Date(1980, 1, 1),
   end: new Date(1980, 5, 3),
@@ -25,23 +25,8 @@ const publishDates = eachMonthOfInterval({
   .map((date) => date.toISOString().slice(0, 10))
   .slice(0, 30);
 
-const genders = [
-  "F",
-  "M",
-  "F",
-  "M",
-  "F",
-  "M",
-  "F",
-  "M",
-  "F",
-  "M",
-  "F",
-  "M",
-  "F",
-  "M",
-  "F",
-];
+// create array of genders
+const genders = [..."FMFMFMFMFMFMFMF"];
 
 // object to be filled with DB tables data
 const Data = {
@@ -50,8 +35,7 @@ const Data = {
   authors_Papers: [],
 };
 
-// populating the `Data` object
-
+// populate the `Data` object
 export function createData() {
   for (let i = 0; i < 15; i++) {
     Data.authors.push([
@@ -60,7 +44,6 @@ export function createData() {
       `${birthDates[i]}`,
       `${Math.floor(Math.random() * 30) + 10}`,
       `${genders[i]}`,
-      `${Math.floor(Math.random() * 14) + 1}`,
     ]);
   }
 
@@ -91,6 +74,6 @@ export function createData() {
       author += 7;
     }
   }
-  console.log(Data);
+
   return Data;
 }
