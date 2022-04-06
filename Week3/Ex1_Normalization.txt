@@ -1,0 +1,42 @@
+-- ────────────────────────────────────────────────────────────────────────────────
+What columns violate 1NF?
+-- ────────────────────────────────────────────────────────────────────────────────
+
+`member_id` : has duplicate records;
+`member_address` : the data is not atomic (one column has two separate values);
+`dinner_date` : has values of several different types/kinds;
+`food_code` : has duplicate records;
+`food_description` : has duplicate records.
+
+-- ────────────────────────────────────────────────────────────────────────────────
+What entities do you recognize that could be extracted?
+-- ────────────────────────────────────────────────────────────────────────────────
+
+4 entities could be extracted:
+`Member`,
+`Dinner`,
+`Venue`,
+`Food`.
+
+-- ────────────────────────────────────────────────────────────────────────────────
+Name all the tables and columns that would make a 3NF compliant solution.
+-- ────────────────────────────────────────────────────────────────────────────────
+
+Member table columns:
+`member_id`,
+`member_name`,
+`member_address`;
+
+Dinner table columns:
+`dinner_id`,
+`member_id`,
+`dinner_date`,
+`venue_code`;
+
+Venue table columns:
+`venue_code`,
+`venue_description`;
+
+Food table columns:
+`food_code`,
+`food_description`.
