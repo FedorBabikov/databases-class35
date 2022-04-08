@@ -6,7 +6,7 @@ create a local dir for csv's and fix access:
 `mkdir /some/path/db_migration`
 `chmod 0777 /some/path/db_migration`
 -- ────────────────────────────────────────────────────────────────────────────────
-create mysql config (if doesn't exist) and allow import to file:
+create mysql config (if doesn't exist) and allow export to file:
 
 `touch my.cnf`
 `vim my.cnf`
@@ -47,4 +47,3 @@ in mongosh - verify the data arrival:
 `db.city.countDocuments()`
 `db.country.countDocuments()`
 `db.countrylanguage.countDocuments()`
--- ────────────────────────────────────────────────────────────────────────────────

@@ -3,9 +3,10 @@ node_modules/
 **/*.DS_Store
 **/*-secret.json
 **/*.sh
-.idea
 package-lock.json
 package.json
+.dotenv
+.idea
 .vscode/
 Week3/input-demo.js
 Week3/sql-injection.js
