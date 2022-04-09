@@ -5,7 +5,7 @@ node_modules/
 **/*.sh
 package-lock.json
 package.json
-.env
+./.env
 .idea
 .vscode/
 Week3/input-demo.js
