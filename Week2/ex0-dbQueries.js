@@ -38,30 +38,27 @@ let updateCaseStr = "";
 for (let i = 0; i < 15; i++) {
   updateCaseStr += ` WHEN ${i + 1} THEN ${15 - i} `;
 }
+
 const UPDATE_AUTHORS = `UPDATE authors
   SET mentor = (CASE author_no ${updateCaseStr} END)
   WHERE author_no > 0;`;
 
 // export queries
-export function getInitQueries() {
-  return [
+const queries = {
+  initQueries: [
     DROP_DB,
     CREATE_DB,
     USE_DB,
     CREATE_TBL_AUTHORS,
     CREATE_TBL_RESEARCH_PAPERS,
     CREATE_TBL_AUTHORS_PAPERS,
-  ];
-}
-
-export function getInsertQueries() {
-  return {
+  ],
+  insertQueries: {
     authors: INSERT_AUTHORS,
     research_Papers: INSERT_RESEARCH_PAPERS,
     authors_Papers: INSERT_AUTHORS_PAPERS,
-  };
-}
+  },
+  modificationQueries: [ADD_MENTOR, UPDATE_AUTHORS],
+};
 
-export function getModificationQueries() {
-  return [ADD_MENTOR, UPDATE_AUTHORS];
-}
+export default queries;

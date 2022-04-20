@@ -2,13 +2,7 @@
 
 import util from "util";
 import mysql from "mysql";
-import {
-  DROP_DB,
-  CREATE_DB,
-  USE_DB,
-  CREATE_TBL_AUTHORS,
-  ADD_MENTOR,
-} from "./ex0-dbQueries.js";
+import queries from "./ex0-dbQueries.js";
 
 // configuration
 const connection = mysql.createConnection({
@@ -21,9 +15,10 @@ const connection = mysql.createConnection({
 const execQuery = util.promisify(connection.query.bind(connection));
 
 // array containing initial queries
-const initQueries = [DROP_DB, CREATE_DB, USE_DB, CREATE_TBL_AUTHORS];
+const initQueries = queries.initQueries.slice(0, 4);
+const ADD_MENTOR = queries.modificationQueries[0];
 
-// creating db
+// querying db
 try {
   connection.connect((err) => {
     if (err) throw err;
@@ -35,9 +30,11 @@ try {
 
   // wait for the ALTER query to finish
   await execQuery(ADD_MENTOR);
+
+  console.log("Finished all queries...");
 } catch (err) {
   console.error(err.message);
+} finally {
   connection.end();
+  console.log("Disconnected from DB...");
 }
-
-connection.end();
