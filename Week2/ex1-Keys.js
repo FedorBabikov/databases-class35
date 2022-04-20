@@ -1,22 +1,11 @@
 "use strict";
 
-import util from "util";
-import mysql from "mysql";
 import queries from "./ex0-dbQueries.js";
-
-// configuration
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "hyfuser",
-  password: "hyfpassword",
-});
-
-// function for making db requests (returns Promise)
-const execQuery = util.promisify(connection.query.bind(connection));
+import { connection, execQuery } from "./ex0-dbConfig.js";
 
 // array containing initial queries
 const initQueries = queries.initQueries.slice(0, 4);
-const ADD_MENTOR = queries.modificationQueries[0];
+const ADD_MENTOR = queries.modifQueries[0];
 
 // querying db
 try {

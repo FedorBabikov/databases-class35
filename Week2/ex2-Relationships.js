@@ -1,35 +1,15 @@
 "use strict";
 
-import util from "util";
-import mysql from "mysql";
-import { createData } from "./ex0-dbData.js";
-import {
-  getInitQueries,
-  getInsertQueries,
-  getModificationQueries,
-} from "./ex0-dbQueries.js";
+import createData from "./ex0-dbData.js";
+import queries from "./ex0-dbQueries.js";
+import { connection, execQuery } from "./ex0-dbConfig.js";
 
-// configuration
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "hyfuser",
-  password: "hyfpassword",
-  database: "research",
-});
+// collections of queries
+const initQueries = queries.initQueries;
+const insQueries = queries.insQueries;
+const modifQueries = queries.modifQueries;
 
-// function for making db requests (returns Promise)
-const execQuery = util.promisify(connection.query.bind(connection));
-
-// array containing initial queries
-const initQueries = getInitQueries();
-
-// object containing insert queries
-const insertQueries = getInsertQueries();
-
-// array containing modification queries
-const modificationQueries = getModificationQueries();
-
-// object containing tables data
+// object: tables data
 const dbData = createData();
 
 // creating and populating db
@@ -45,17 +25,19 @@ async function seedDatabase() {
 
     // wait for all the insert queries to finish
     for (const [key, value] of Object.entries(dbData)) {
-      await execQuery(insertQueries[key], [value]);
+      await execQuery(insQueries[key], [value]);
     }
 
     // wait for all the modification queries to finish
-    await Promise.all(modificationQueries.map((query) => execQuery(query)));
+    await Promise.all(modifQueries.map((query) => execQuery(query)));
+
+    console.log("Finished all queries...");
   } catch (err) {
     console.error(err.message);
+  } finally {
     connection.end();
+    console.log("Disconnected from DB...");
   }
-
-  connection.end();
 }
 
 seedDatabase();

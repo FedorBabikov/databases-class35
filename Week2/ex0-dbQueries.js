@@ -35,8 +35,29 @@ const ADD_MENTOR = `ALTER TABLE authors
   ADD FOREIGN KEY (mentor) REFERENCES authors(author_no);`;
 
 let updateCaseStr = "";
-for (let i = 0; i < 15; i++) {
-  updateCaseStr += ` WHEN ${i + 1} THEN ${15 - i} `;
+for (let i = 1; i <= 14; i++) {
+  switch (i) {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+      updateCaseStr += ` WHEN ${i} THEN ${13} `;
+      break;
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+      updateCaseStr += ` WHEN ${i} THEN ${14} `;
+      break;
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+      updateCaseStr += ` WHEN ${i} THEN ${15} `;
+      break;
+  }
 }
 
 const UPDATE_AUTHORS = `UPDATE authors
@@ -53,12 +74,12 @@ const queries = {
     CREATE_TBL_RESEARCH_PAPERS,
     CREATE_TBL_AUTHORS_PAPERS,
   ],
-  insertQueries: {
+  insQueries: {
     authors: INSERT_AUTHORS,
     research_Papers: INSERT_RESEARCH_PAPERS,
     authors_Papers: INSERT_AUTHORS_PAPERS,
   },
-  modificationQueries: [ADD_MENTOR, UPDATE_AUTHORS],
+  modifQueries: [ADD_MENTOR, UPDATE_AUTHORS],
 };
 
 export default queries;

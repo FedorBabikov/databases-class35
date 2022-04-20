@@ -28,15 +28,15 @@ const publishDates = eachMonthOfInterval({
 // create array of genders
 const genders = [..."FMFMFMFMFMFMFMF"];
 
-// object to be filled with DB tables data
-const Data = {
-  authors: [],
-  research_Papers: [],
-  authors_Papers: [],
-};
+export default function createData() {
+  // object to be filled with data for DB tables
+  const Data = {
+    authors: [],
+    research_Papers: [],
+    authors_Papers: [],
+  };
 
-// populate the `Data` object
-export function createData() {
+  // populate the `Data` object
   for (let i = 0; i < 15; i++) {
     Data.authors.push([
       `Author-${i + 1}`,
